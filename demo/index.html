@@ -22,9 +22,49 @@
       <h3>Basic task-list demo</h3>
       <demo-snippet>
         <template>
-          <task-list></task-list>
+          <task-list task-elements=""></task-list>
         </template>
       </demo-snippet>
     </div>
+    <script>
+      let taskList = document.querySelector('task-list');
+      /* Parameters 
+          { id: Number,
+          title: String,
+          canceled: Boolean,
+          done: Boolean } */
+      let data = [
+        {
+          id: 1,
+          title: 'Tarea happyflower',
+          canceled: true,
+          done: false
+        },
+        {
+          id: 1,
+          title: 'Tarea cacafuta',
+          canceled: false,
+          done: false
+        },{
+          id: 1,
+          title: 'Conquistar el mundo con Pinky y Cerebro',
+          canceled: false,
+          done: false
+        },
+        {
+          id: 1,
+          title: 'Procastinar',
+          canceled: false,
+          done: true
+        },{
+          id: 1,
+          title: 'Buscar dom-repeat en Google',
+          canceled: false,
+          done: true
+        }
+      ]
+
+      taskList.setAttribute('task-elements', JSON.stringify(data));
+    </script>
   </body>
 </html>
