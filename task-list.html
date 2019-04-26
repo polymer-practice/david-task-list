@@ -1,18 +1,43 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../task-element/task-element.html">
+<link rel="import" href="../console-messages/console-messages.html">
 
 <dom-module id="task-list">
   <template>
     <style>
       :host {
         display: block;
+        --font-size: 18px;
+      }
+      .search-box {
+        display: flex;
+        align-items: center;
+        padding-left: 40px;        
+      }
+      .search-box__label {
+        font-size: var(--font-size);
+      }
+      .search-box__label + .search-box__input {
+        margin-left: .2em;
+      }
+      
+      .search-box__input {
+        appearance: none;
+        padding: .5em .2em;
+        border: 1px solid lightgray;
+        width: 100%;
       }
     </style>
-    <ol>
-      <template is="dom-repeat" items=[[taskElements]]>
-        <task-element id="task-"[[item.id]] title=[[item.title]] [[item.canceled]] [[item.done]]></task-element>
+    <div class="search-box">
+      <label for="search-box" class="search-box__label">Search task</label>
+      <input id="tasks-search" class="search-box__input" type="text" name="search-box" value="{{inputFilter::input}}">
+    </div>
+    <ol> 
+      <template is="dom-repeat" items=[[taskElements]] sort="sortTaskElements" filter={{filterTask(inputFilter)}}>
+        <task-element id="task-[[item.id]]" title="[[item.title]]" done=[[item.done]] canceled=[[item.canceled]]></task-element>
       </template>
     </ol>
+    <slot></slot>
   </template>
 
   <script>
@@ -31,8 +56,37 @@
           taskElements: {
             type: Array,
             value: []
-          }
+          },
+          inputFilter: String
         };
+      }
+      /* 
+        Your comparison inside the sort will: A,B,C are in highest to lowest prioerity
+
+        Compare Element 1's A with Element 2's A
+        If greater or less return result
+        Else Compare B
+        If greater or less return result
+        Else Compare C return result
+        This can be extrapolated to A..n criteria with a simple loop.
+
+        For Each Criteria in list of Criteria
+        Compare Element 1's Criteria with Element 2's
+        If greater or less return result
+        Else continue // for clarity
+        Return equal
+
+      */
+      sortTaskElements(nextItem, prevItem) {}
+      filterTask(str) {
+        if (!str) {
+          return;
+        }
+        let needle = str.toLowerCase();
+        return function (task) {
+          let title = task.title.toLowerCase();
+          return title.indexOf(needle) > -1;
+        }
       }
     }
 

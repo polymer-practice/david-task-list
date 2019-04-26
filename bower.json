@@ -3,7 +3,8 @@
   "main": "task-list.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "task-element": "https://github.com/polymer-practice/david-task-element.git"
+    "task-element": "https://github.com/polymer-practice/david-task-element.git",
+    "console-messages": "https://github.com/polymer-practice/david-console-messages"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
