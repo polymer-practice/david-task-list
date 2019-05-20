@@ -6,25 +6,46 @@
   <template>
     <style>
       :host {
-        display: block;
-        --font-size: 18px;
+        background-color: var(--primary-color-task-list, #3D348B);
+        color: var(--text-color-task-list, #FFFFFF);
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-height: fit-content;
+        --font-size: var(--font-size-task-list, 16px);
       }
       ol {
-        padding-left: 1em;
+        padding: 0 1em;
       }
       .search-box {
-        display: flex;
-        align-items: center;     
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        overflow: hidden;
+        padding: 1em;
+        width: 100%;    
       }
       .search-box__label {
-        font-size: var(--font-size);
+        font-size: var(--font-size-task-list, 16px);
       }
-      .search-box__label + .search-box__input {
-        margin-left: .2em;
-      }
-      
       .search-box__input {
-        @apply --default-input;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        background-color: var(--secondary-color-form-task, #7678ED);
+        border: 3px solid var(--secondary-color-form-task, #7678ED);
+        border-radius: 5px;
+        color: inherit;
+        font-size: var(--font-size-form-task 16px);
+        padding: .5em;
+      }
+      @media screen and (min-width: 600px) {
+        .search-box {
+          flex-direction: row;
+        }
+        .search-box__label + .search-box__input {
+          margin-left: 1em;
+        }
       }
     </style>
     <div class="search-box">
@@ -59,23 +80,6 @@
           inputFilter: String
         };
       }
-      /* 
-        Your comparison inside the sort will: A,B,C are in highest to lowest prioerity
-
-        Compare Element 1's A with Element 2's A
-        If greater or less return result
-        Else Compare B
-        If greater or less return result
-        Else Compare C return result
-        This can be extrapolated to A..n criteria with a simple loop.
-
-        For Each Criteria in list of Criteria
-        Compare Element 1's Criteria with Element 2's
-        If greater or less return result
-        Else continue // for clarity
-        Return equal
-
-      */
       sortTaskElements(currItem, prevItem) {
         let highcurrItem = currItem.canceled - (prevItem.done * 2);
         let highprevItem = prevItem.canceled - (currItem.done * 2);
